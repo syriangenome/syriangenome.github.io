@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://syriangenome.com/sitemap.xml
