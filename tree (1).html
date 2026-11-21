@@ -7,7 +7,7 @@
 <meta name="description" content="شجرة تفاعلية تجمع السلالات الأبوية (Y-DNA) التي يشاركها المختبرون السوريون: ابحث عن أي تحوّر، وتصفّح الفروع حسب المحافظة ونوع الفحص.">
 <link rel="canonical" href="https://syriangenome.com/tree.html">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="الجينوم السوري | Syrian Genome">
+<meta property="og:site_name" content="الجينوم السوري">
 <meta property="og:title" content="شجرة السلالات الأبوية السورية | الجينوم السوري">
 <meta property="og:description" content="شجرة تفاعلية تجمع السلالات الأبوية (Y-DNA) التي يشاركها المختبرون السوريون: ابحث عن أي تحوّر، وتصفّح الفروع حسب المحافظة ونوع الفحص.">
 <meta property="og:url" content="https://syriangenome.com/tree.html">
@@ -17,14 +17,12 @@
 <meta name="twitter:site" content="@SyrianGenome">
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lemonada:wght@600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Lora:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="fonts.css">
 <style id="st">
 /* Layout: dark lab-notebook page; tree on one side, branch "specimen card" on the other; each major haplogroup keeps one colour everywhere */
 :root{
   --bg:#0a1724; --bg2:#0e2031; --panel:#102538; --line:#1d3a52; --line2:#2a4b66;
-  --fg:#e9eef4; --muted:#9fb1c4; --gold:#e8b866; --gold2:#f6d696; --teal:#56cede; --rose:#e278aa; --green:#6ec88c; --violet:#a99cf0; --amber:#f0a070;
+  --fg:#e9eef4; --muted:#9fb1c4; --gold:#e8b866; --gold2:#f6d696; --teal:#56cede; --rose:#e278aa; --green:#6ec88c; --violet:#a99cf0; --amber:#f0a070; --sky:#7fa8f0;
   --display:"Lemonada","Noto Naskh Arabic",serif;
   --body:"Noto Naskh Arabic","Amiri","Times New Roman",serif;
   --latin:"Lora",Georgia,serif;
@@ -69,6 +67,7 @@ select,textarea,input[type=text]{font:inherit;background:var(--bg2);color:var(--
 @media (max-width:880px){.main{grid-template-columns:1fr}}
 .tree{background:var(--panel);border:1.5px solid var(--gold);border-radius:18px;padding:12px 8px;overflow-x:auto;min-height:220px}
 .tree ul{list-style:none;margin:0;padding:0}
+.tree>ul{width:max-content;min-width:100%}
 .tree ul ul{padding-inline-start:20px;border-inline-start:1px dashed var(--line2);margin-inline-start:12px}
 .node{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:5px 6px;border-radius:10px;cursor:pointer}
 .node:hover{background:var(--bg2)}
@@ -85,6 +84,14 @@ select,textarea,input[type=text]{font:inherit;background:var(--bg2);color:var(--
 .svgwrap{overflow:auto;max-height:720px;direction:ltr}
 .svgwrap svg{display:block;direction:ltr}
 .svgwrap text{font-family:var(--latin)}
+.svgwrap .ar{font-family:var(--body)}
+.calc{margin-top:16px;background:var(--panel);border:1.5px solid var(--teal);border-radius:18px;padding:14px 16px}
+.calc h2{color:var(--teal);margin-bottom:4px}
+.calc .grid input{font-family:var(--latin);direction:ltr;text-align:left}
+.calc .res{margin-top:10px;background:var(--bg2);border-radius:12px;padding:10px 12px;line-height:1.9}
+.calc .res b{color:var(--gold2)}
+.calc .res .en{color:var(--gold2);font-weight:600;white-space:nowrap}
+.tlnote{color:var(--muted);font-size:.84rem;margin:6px 4px 0}
 .card{background:var(--panel);border:1.5px solid var(--c,var(--line2));border-radius:18px;padding:16px;position:sticky;top:12px}
 .card .crumbs{display:flex;flex-wrap:wrap;gap:4px;direction:ltr;margin:8px 0 12px}
 .card .crumbs button{font-family:var(--latin);font-size:.78rem;background:var(--bg2);border:1px solid var(--line2);color:var(--muted);border-radius:999px;padding:0 8px}
@@ -99,9 +106,14 @@ select,textarea,input[type=text]{font:inherit;background:var(--bg2);color:var(--
 .tag{display:inline-block;font-size:.78rem;border-radius:6px;padding:0 7px;margin-inline-end:4px;border:1px solid}
 .tag.deep{color:var(--green);border-color:var(--green)}
 .tag.str{color:var(--teal);border-color:var(--teal)}
+.tag.top{color:var(--violet);border-color:var(--violet)}
 .tag.ff{color:var(--amber);border-color:var(--amber)}
 .tag.other{color:var(--muted);border-color:var(--muted)}
 .names{color:var(--rose);font-size:.9rem}
+.people{display:flex;flex-wrap:wrap;gap:5px 6px;padding:0 38px 6px 6px;min-width:max-content}
+.person{font-size:.84rem;line-height:1.6;background:color-mix(in srgb,var(--c,var(--gold)) 13%,transparent);border:1px solid color-mix(in srgb,var(--c,var(--gold)) 45%,transparent);border-radius:999px;padding:1px 10px;color:var(--fg);white-space:nowrap}
+.person b{color:var(--c,var(--gold2));font-weight:700}
+.person.anon{color:var(--muted);background:transparent;border-style:dashed}
 .empty{text-align:center;padding:36px 16px;color:var(--muted)}
 .empty b{display:block;color:var(--gold2);font-size:1.1rem;margin-bottom:6px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted);margin-top:10px}
@@ -123,17 +135,17 @@ textarea{font-family:var(--latin);direction:ltr;min-height:84px}
 footer{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;color:var(--muted);font-size:.9rem}
 footer a{color:var(--teal)}
 </style>
-</head>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"الجينوم السوري","alternateName":["Syrian Genome","SyrianGenome"],"url":"https://syriangenome.com/"}</script></head>
 <body>
 <div id="app" dir="rtl" lang="ar"></div>
-<script type="application/json" id="data">{"entries": [{"id": "mwkcabtn90ws", "path": ["J-M172", "J-M410", "J-CTS7683", "J-L26", "J-PF5088", "J-PF5160", "J-L24", "J-Z393", "J-L25", "J-Z7700", "J-Z32167", "J-Z44894", "J-Z38363", "J-Y26741", "J-Z38370"], "region": "دمشق", "test": "Family Finder", "added": "2026-11-17", "updated": "2026-11-17"}], "ages": {}}</script>
+<script type="application/json" id="data">{"entries":[{"id":"mwkcabtn90ws","path":["J-M172","J-M410","J-CTS7683","J-L26","J-PF5088","J-PF5160","J-L24","J-Z393","J-L25","J-Z7700","J-Z32167","J-Z44894","J-Z38363","J-Y26741","J-Z38370"],"region":"دمشق","test":"Family Finder","added":"2026-11-17","updated":"2026-11-18","name":"عائلة القففي، وعائلة عز الدين قففي"},{"id":"g57515alp1","path":["G-M201","G-L89","G-L156","G-P15","G-L1259","G-L30","G-CTS574","G-M406","G-PF3299","G-FGC5089","G-M3302","G-FT56871","G-FT56736","G-FT57515"],"region":"حلب","test":"Big Y","name":"الويسات – فخذ الحليسات","added":"2026-11-17"},{"id":"rfta44686hs","path":["R-M207","R-M173","R-M420","R-M459","R-CTS7500","R-CTS5437","R-M515","R-M198","R-M417","R-PF6162","R-Z283","R-Z282","R-Y17491","R-YP4858","R-SK2014","R-FGC64133"],"region":"الحسكة","test":"YSEQ","added":"2026-11-17","updated":"2026-11-18","name":"سميار كمال الدين أوسو"},{"id":"emf65337dm","path":["E-M96","E-CTS9083","E-P147","E-P177","E-P2","E-M215","E-M35","E-V68","E-M78","E-PF2179","E-Z1902","E-V12","E-CTS9007","E-CTS693","E-CTS4004","E-FGC7703","E-CTS3346","E-Z5007","E-CTS6667","E-FT264693","E-MF65337"],"region":"إدلب","test":"Big Y","added":"2026-11-17","updated":"2026-11-18"},{"id":"rft187352id","path":["R-M207","R-M173","R-M420","R-M459","R-CTS7500","R-CTS5437","R-M515","R-M198","R-M417","R-PF6162","R-Z93","R-Z94","R-FT197453","R-Y40","R-YP294","R-FT185047","R-FT187352"],"region":"إدلب","test":"Big Y","added":"2026-11-18"},{"id":"jby69676hs","path":["J-M172","J-M102","J-Z2411","J-Z529","J-M205","J-PF7321","J-FGC88568","J-FT57936","J-FT58039","J-FT57872","J-Y134209","J-BY69676"],"region":"الحسكة","test":"Big Y","name":"سليمان السليمان – قبيلة المحلمية الشيبانية","added":"2026-11-18"},{"id":"jfta83954dz","path":["J-M267","J-CTS12238","J-Z2217","J-L620","J-PF4832","J-L136","J-Z1874","J-P58","J-CTS9721","J-PF4678","J-Z1865","J-Z1853","J-L862","J-PF4843","J-YSC0000235","J-PF4638","J-Z27715","J-YSC0000234","J-L858","J-FGC11","J-FGC7638","J-FGC1722","J-FGC1720","J-FGC1723","J-FGC1695","J-FGC4415","J-FGC4422","J-BY527","J-ZS5240","J-ZS5230","J-BY140263","J-FT293439","J-FTA47558","J-FTA47568","J-FTA83954"],"region":"دير الزور","test":"Big Y","name":"أحمد بن محمود النعمان الكبيسي","added":"2026-11-18"},{"id":"lm76alp","path":["L-M20","L-M22","L-M2357","L-M76"],"region":"حلب","test":"أخرى","added":"2026-11-20"},{"id":"tz19945dm","path":["T-M184","T-L490","T-M70","T-Z19859","T-L131","T-Z19935","T-L446","T-Y6055","T-CTS933","T-CTS10803","T-FT127659","T-Z19890","T-Z19939","T-CTS11984","T-CTS8489","T-PH3117","T-CTS8862","T-Z19945"],"region":"دمشق","test":"YSEQ","added":"2026-11-21","updated":"2026-11-21","name":"عائلة اللحام"},{"id":"lm20rq","path":["L-M20"],"region":"الرقة","test":"YSEQ (رأس السلالة)","name":"شبلي الناصر الحسن / البوجابر","added":"2026-11-21"}],"ages":{"G-M201":"نحو 26,000 ق.م · FTDNA","G-L89":"نحو 24,000 ق.م · FTDNA","G-L156":"نحو 20,000 ق.م · FTDNA","G-P15":"نحو 16,000 ق.م · FTDNA","G-L1259":"نحو 16,000 ق.م · FTDNA","G-L30":"نحو 14,000 ق.م · FTDNA","G-CTS574":"نحو 13,000 ق.م · FTDNA","G-M406":"نحو 9,900 ق.م · FTDNA","G-PF3299":"نحو 7,150 ق.م · FTDNA","G-FGC5089":"نحو 6,200 ق.م · FTDNA","G-M3302":"نحو 5,450 ق.م · FTDNA","G-FT56871":"نحو 5,400 ق.م · FTDNA","G-FT56736":"نحو 2,700 ق.م · FTDNA","G-FT57515":"نحو 1,250 ق.م · FTDNA","GHIJK-F1329":"نحو 46,000 ق.م · FTDNA","F-M89":"نحو 46,000 ق.م · FTDNA","CF-P143":"نحو 63,000 ق.م · FTDNA","CT-M168":"نحو 63,000 ق.م · FTDNA","BT-M42":"نحو 86,000 ق.م · FTDNA","A-V221":"نحو 121,000 ق.م · FTDNA","A-V168":"نحو 126,000 ق.م · FTDNA","A-L1098":"نحو 152,000 ق.م · FTDNA","A-PR2921":"نحو 232,000 ق.م · FTDNA","A000-T":"نحو 368,000 ق.م · FTDNA","A0000":"نحو 705,000 ق.م · FTDNA","R-M207":"نحو 25,000 ق.م · FTDNA","R-M173":"نحو 19,000 ق.م · FTDNA","R-M420":"نحو 15,000 ق.م · FTDNA","R-M459":"نحو 12,000 ق.م · FTDNA","R-CTS7500":"نحو 11,000 ق.م · FTDNA","R-CTS5437":"نحو 11,000 ق.م · FTDNA","R-M515":"نحو 9,850 ق.م · FTDNA","R-M198":"نحو 6,500 ق.م · FTDNA","R-M417":"نحو 3,250 ق.م · FTDNA","R-PF6162":"نحو 2,950 ق.م · FTDNA","R-Z283":"نحو 2,800 ق.م · FTDNA","R-Z282":"نحو 2,750 ق.م · FTDNA","R-Y17491":"نحو 2,650 ق.م · FTDNA","R-YP4858":"نحو 1,850 ق.م · FTDNA","R-SK2014":"نحو 1,400 ق.م · FTDNA","R-FGC64133":"نحو 1,200 ق.م · FTDNA","P-P226":"نحو 29,000 ق.م · FTDNA","P-P284":"نحو 33,000 ق.م · FTDNA","P-M45":"نحو 34,000 ق.م · FTDNA","P-P295":"نحو 42,000 ق.م · FTDNA","P-PF5850":"نحو 42,000 ق.م · FTDNA","K-YSC0000186":"نحو 42,000 ق.م · FTDNA","K-M526":"نحو 43,000 ق.م · FTDNA","K-M9":"نحو 43,000 ق.م · FTDNA","IJK-L15":"نحو 44,000 ق.م · FTDNA","HIJK-PF3494":"نحو 45,000 ق.م · FTDNA","E-M96":"نحو 49,000 ق.م · FTDNA","E-CTS9083":"نحو 49,000 ق.م · FTDNA","E-P147":"نحو 48,000 ق.م · FTDNA","E-P177":"نحو 47,000 ق.م · FTDNA","E-P2":"نحو 40,000 ق.م · FTDNA","E-M215":"نحو 33,000 ق.م · FTDNA","E-M35":"نحو 23,000 ق.م · FTDNA","E-V68":"نحو 19,000 ق.م · FTDNA","E-M78":"نحو 12,000 ق.م · FTDNA","E-PF2179":"نحو 11,000 ق.م · FTDNA","E-Z1902":"نحو 11,000 ق.م · FTDNA","E-V12":"نحو 8,300 ق.م · FTDNA","E-CTS9007":"نحو 7,750 ق.م · FTDNA","E-CTS693":"نحو 7,150 ق.م · FTDNA","E-CTS4004":"نحو 6,950 ق.م · FTDNA","E-FGC7703":"نحو 6,850 ق.م · FTDNA","E-CTS3346":"نحو 4,650 ق.م · FTDNA","E-Z5007":"نحو 4,650 ق.م · FTDNA","E-CTS6667":"نحو 2,500 ق.م · FTDNA","E-FT264693":"نحو 2,200 ق.م · FTDNA","E-MF65337":"نحو 2,050 ق.م · FTDNA","DE-M145":"نحو 60,000 ق.م · FTDNA","R-FT187352":"نحو 950 م · FTDNA","R-FT185047":"نحو 950 ق.م · FTDNA","R-YP294":"نحو 1,950 ق.م · FTDNA","R-Y40":"نحو 2,500 ق.م · FTDNA","R-FT197453":"نحو 2,500 ق.م · FTDNA","R-Z94":"نحو 2,550 ق.م · FTDNA","R-Z93":"نحو 2,650 ق.م · FTDNA","J-BY69676":"نحو 850 م · FTDNA","J-Y134209":"نحو 550 ق.م · FTDNA","J-FT57872":"نحو 1,000 ق.م · FTDNA","J-FT58039":"نحو 1,400 ق.م · FTDNA","J-FT57936":"نحو 2,500 ق.م · FTDNA","J-FGC88568":"نحو 3,700 ق.م · FTDNA","J-PF7321":"نحو 3,700 ق.م · FTDNA","J-M205":"نحو 3,900 ق.م · FTDNA","J-Z529":"نحو 13,000 ق.م · FTDNA","J-Z2411":"نحو 13,000 ق.م · FTDNA","J-M102":"نحو 14,000 ق.م · FTDNA","J-M172":"نحو 25,000 ق.م · FTDNA","J-M304":"نحو 27,000 ق.م · FTDNA","IJ-P124":"نحو 38,000 ق.م · FTDNA","J-M267":"نحو 17,000 ق.م · FTDNA","J-CTS12238":"نحو 16,000 ق.م · FTDNA","J-Z2217":"نحو 16,000 ق.م · FTDNA","J-L620":"نحو 13,000 ق.م · FTDNA","J-PF4832":"نحو 12,000 ق.م · FTDNA","J-L136":"نحو 10,000 ق.م · FTDNA","J-Z1874":"نحو 9,250 ق.م · FTDNA","J-P58":"نحو 7,750 ق.م · FTDNA","J-CTS9721":"نحو 7,600 ق.م · FTDNA","J-PF4678":"نحو 6,650 ق.م · FTDNA","J-Z1865":"نحو 5,900 ق.م · FTDNA","J-Z1853":"نحو 4,900 ق.م · FTDNA","J-L862":"نحو 4,100 ق.م · FTDNA","J-PF4843":"نحو 4,000 ق.م · FTDNA","J-YSC0000235":"نحو 3,800 ق.م · FTDNA","J-PF4638":"نحو 3,750 ق.م · FTDNA","J-Z27715":"نحو 3,650 ق.م · FTDNA","J-YSC0000234":"نحو 3,350 ق.م · FTDNA","J-L858":"نحو 2,850 ق.م · FTDNA","J-FGC11":"نحو 2,750 ق.م · FTDNA","J-FGC7638":"نحو 2,650 ق.م · FTDNA","J-FGC1722":"نحو 1,900 ق.م · FTDNA","J-FGC1720":"نحو 1,650 ق.م · FTDNA","J-FGC1723":"نحو 1,250 ق.م · FTDNA","J-FGC1695":"نحو 1,200 ق.م · FTDNA","J-FGC4415":"نحو 1,100 ق.م · FTDNA","J-FGC4422":"نحو 1,050 ق.م · FTDNA","J-BY527":"نحو 900 ق.م · FTDNA","J-ZS5240":"نحو 800 ق.م · FTDNA","J-ZS5230":"نحو 150 ق.م · FTDNA","J-BY140263":"نحو 450 م · FTDNA","J-FT293439":"نحو 850 م · FTDNA","J-FTA47558":"نحو 1,150 م · FTDNA","J-FTA47568":"نحو 1,350 م · FTDNA","J-FTA83954":"نحو 1,550 م · FTDNA","L-M76":"نحو 13,000 ق.م · FTDNA","L-M2357":"نحو 15,000 ق.م · FTDNA","L-M22":"نحو 17,000 ق.م · FTDNA","L-M20":"نحو 22,000 ق.م · FTDNA","LT-L298":"نحو 40,000 ق.م · FTDNA","T-M184":"نحو 26,000 ق.م · FTDNA","T-L490":"نحو 18,000 ق.م · FTDNA","T-M70":"نحو 14,000 ق.م · FTDNA","T-Z19859":"نحو 14,000 ق.م · FTDNA","T-L131":"نحو 10,000 ق.م · FTDNA","T-Z19935":"نحو 10,000 ق.م · FTDNA","T-L446":"نحو 6,900 ق.م · FTDNA","T-Y6055":"نحو 6,700 ق.م · FTDNA","T-CTS933":"نحو 6,100 ق.م · FTDNA","T-CTS10803":"نحو 5,850 ق.م · FTDNA","T-FT127659":"نحو 5,750 ق.م · FTDNA","T-Z19890":"نحو 5,750 ق.م · FTDNA","T-Z19939":"نحو 5,700 ق.م · FTDNA","T-CTS11984":"نحو 2,450 ق.م · FTDNA","T-CTS8489":"نحو 1,950 ق.م · FTDNA","T-PH3117":"نحو 1,850 ق.م · FTDNA","T-CTS8862":"نحو 1,500 ق.م · FTDNA","T-Z19945":"نحو 1,400 ق.م · FTDNA"},"alias":{"J-BY69676":"J-Y134179","G-FT57515":"G-FT57914"}}</script>
 <script id="main">
 (function(){
 const GOVS=["دمشق","ريف دمشق","حلب","حمص","حماة","اللاذقية","طرطوس","إدلب","الرقة","دير الزور","الحسكة","درعا","السويداء","القنيطرة","غير محدد"];
-const TESTS=["Big Y","YSEQ","SNP Pack","Y-111","Y-67","Y-37","Family Finder","أخرى"];
-const DEPTH={"Big Y":"deep","YSEQ":"deep","SNP Pack":"deep","Y-111":"str","Y-67":"str","Y-37":"str","Family Finder":"ff","فحص جسدي":"ff"};
-const DEPTH_AR={deep:"فحص تحوّرات عميق",str:"فحص ماركرات (سلالة متوقعة)",ff:"Family Finder (سلالة تقديرية)",other:"أخرى"};
-const COLORS={J:"var(--gold)",E:"var(--teal)",T:"var(--rose)",G:"var(--green)",R:"var(--violet)",I:"var(--amber)"};
+const TESTS=["Big Y","YSEQ","YSEQ (رأس السلالة)","SNP Pack","Y-111","Y-67","Y-37","Family Finder","أخرى"];
+const DEPTH={"Big Y":"deep","YSEQ":"deep","YSEQ (رأس السلالة)":"top","SNP Pack":"deep","Y-111":"str","Y-67":"str","Y-37":"str","Family Finder":"ff","فحص جسدي":"ff"};
+const DEPTH_AR={deep:"فحص تحوّرات عميق",top:"تحوّر رأس السلالة فقط",str:"فحص ماركرات (سلالة متوقعة)",ff:"Family Finder (سلالة تقديرية)",other:"أخرى"};
+const COLORS={J:"var(--gold)",E:"var(--teal)",T:"var(--rose)",G:"var(--green)",R:"var(--violet)",I:"var(--amber)",L:"var(--sky)"};
 const colorOf=l=>COLORS[l]||"var(--muted)";
 const depthOf=t=>DEPTH[t]||"other";
 let DATA;
@@ -141,45 +153,64 @@ try{DATA=JSON.parse(document.getElementById('data').textContent)}catch(e){DATA={
 DATA.entries=DATA.entries||[];DATA.ages=DATA.ages||{};
 let draft=JSON.parse(JSON.stringify(DATA));
 let dirty=false,isAdmin=false,art=null,editId=null;
-const ui={q:"",gov:"",depth:"",view:"draw",sel:""};
+const ui={q:"",gov:"",depth:"",view:"draw",sel:"",mode:"step",ca:"",cb:"",cr:null};
 const open=new Set();
 const app=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const slug=s=>s.replace(/[^A-Za-z0-9-]/g,'-');
 
+const BACK_PRE="AFKP";
+function majorLetter(n){const i=n.indexOf('-');if(i<0)return '';const p=n.slice(0,i);return p.length===1&&!BACK_PRE.includes(p)?p:''}
+const isBack=n=>!majorLetter(n);
+const BASE=["A0000","A000-T","A-PR2921","A-L1098","A-V168","A-V221","BT-M42","CT-M168"];
+const GHIJK=[...BASE,"CF-P143","F-M89","GHIJK-F1329"];
+const K=[...GHIJK,"HIJK-PF3494","IJK-L15","K-M9"];
+const IJ=[...GHIJK,"HIJK-PF3494","IJK-L15","IJ-P124"];
+const LT=[...K,"LT-L298"];
+const P=[...K,"K-M526","K-YSC0000186","P-PF5850","P-P295","P-M45","P-P284","P-P226"];
+const BB={"R-M207":P,"G-M201":GHIJK,"J-M304":IJ,"I-M170":IJ,"J-M172":[...IJ,"J-M304"],"J-M267":[...IJ,"J-M304"],"T-M184":LT,"L-M20":LT,"E-M96":[...BASE,"DE-M145"]};
+function full(p){if(!p||!p.length)return [];
+  let i=0;while(i<p.length&&isBack(p[i]))i++;const core=p.slice(i);if(!core.length)return p;
+  if(BB[core[0]])return [...BB[core[0]],...core];
+  if(i>0){const last=p[i-1];for(const l of Object.values(BB)){const k=l.indexOf(last);if(k>=0)return [...l.slice(0,k+1),...core]}}
+  return p}
 function parsePath(txt){
-  let toks=txt.split(/\s*(?:>|→|›|»|,|\n|\|)\s*/).map(s=>s.replace(/\s+/g,'')).filter(Boolean);
-  const i=toks.findIndex(t=>/^[A-Za-z][0-9a-z]*-/.test(t));
-  if(i>0)toks=toks.slice(i);
-  let pref=null;
-  return toks.map(t=>{const m=t.match(/^([A-Za-z])[0-9a-z]*-(.+)$/);
-    if(m){pref=m[1].toUpperCase();return pref+'-'+m[2].toUpperCase();}
-    return pref?pref+'-'+t.toUpperCase():t.toUpperCase();});
+  let pref=null;const out=[];
+  for(let raw of txt.split(/\s*(?:>|→|›|»|←|,|،|\n|\|)\s*/)){
+    let s=raw.replace(/\(.*?\)/g,'').replace(/[^A-Za-z0-9-]/g,'');if(!s)continue;
+    if(/^A0+$/i.test(s)){out.push(s.toUpperCase());continue}
+    const k=s.indexOf('-');
+    if(k<0){if(/^[A-Za-z]+[0-9]+$/.test(s)&&pref)out.push(pref+'-'+s.toUpperCase());continue}
+    let pre=s.slice(0,k);if(/^[A-Za-z][0-9][0-9A-Za-z]*$/.test(pre))pre=pre[0];
+    pre=pre.toUpperCase();out.push(pre+'-'+s.slice(k+1).toUpperCase());if(!isBack(pre+'-x'))pref=pre;
+  }
+  if(out.length>1&&isBack(out[out.length-1])&&!isBack(out[0]))out.reverse();
+  return out;
 }
 function filtered(){return DATA.entries.filter(e=>(!ui.gov||e.region===ui.gov)&&(!ui.depth||depthOf(e.test)===ui.depth))}
 function build(entries){
-  const root={name:'',kids:new Map(),total:0,direct:0,regions:{},tests:{},names:[]};
+  const root={name:'',kids:new Map(),total:0,direct:0,regions:{},tests:{},names:[],people:[]};
   for(const e of entries){
-    if(!e.path||!e.path.length)continue;
-    const letter=(e.path[0].match(/^([A-Z])-/)||[0,e.path[0][0]])[1];
-    const chain=[letter,...e.path];let n=root;
-    for(let k=0;k<chain.length;k++){
-      const key=chain[k];
-      if(!n.kids.has(key))n.kids.set(key,{name:key,top:k===0,letter,kids:new Map(),total:0,direct:0,regions:{},tests:{},names:[],parent:n});
+    const chain=full(e.path);if(!chain.length)continue;let n=root;
+    for(const key of chain){
+      if(!n.kids.has(key)){const L=majorLetter(key);n.kids.set(key,{name:key,letter:L,top:!!L&&majorLetter(n.name||'')!==L,kids:new Map(),total:0,direct:0,regions:{},tests:{},names:[],people:[],parent:n});}
       n=n.kids.get(key);n.total++;
       n.regions[e.region]=(n.regions[e.region]||0)+1;
       const d=depthOf(e.test);n.tests[d]=(n.tests[d]||0)+1;
     }
-    n.direct++;if(e.name&&!e.hideName)n.names.push(e.name);
+    n.direct++;const shown=e.name&&!e.hideName?e.name:'';if(shown)n.names.push(shown);n.people.push({name:shown,region:e.region});
   }
-  return root;
+  /* start the drawing at the oldest shared ancestor of everyone shown */
+  let top=root;
+  while(top.kids.size===1){const c=[...top.kids.values()][0];if(!isBack(c.name)||c.direct||c.kids.size!==1){top=c;break}top=c}
+  return {name:'',kids:top===root?root.kids:new Map([[top.name,top]]),full:root,top:top===root?null:top};
 }
 const sorted=m=>[...m.values()].sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));
 function pathKey(n){const p=[];while(n&&n.name){p.unshift(n.name);n=n.parent}return p.join('>')}
 function ancestry(n){const p=[];while(n&&n.name){p.unshift(n);n=n.parent}return p}
 /* fold a run of single-child steps into one row */
 function chainOf(n){return [n]}
-function matches(n,q){if(!q)return false;const s=n.name.toUpperCase();return s.includes(q)||s.replace(/^[A-Z]-/,'').includes(q.replace(/^[A-Z]-/,''))}
+function matches(n,q){if(!q)return false;const s=(n.name+' '+((DATA.alias||{})[n.name]||'')).toUpperCase();return s.includes(q)||s.replace(/^[A-Z]+-/,'').includes(q.replace(/^[A-Z]+-/,''))}
 function findAll(root,pred){const out=[];(function w(n){for(const c of n.kids.values()){if(pred(c))out.push(c);w(c)}})(root);return out}
 
 function rowHTML(n){
@@ -189,11 +220,67 @@ function rowHTML(n){
   const age=DATA.ages[last.name]?`<span class="age">${esc(DATA.ages[last.name])}</span>`:'';
   let h=`<li><div class="node${hit?' hit':''}${sel?' sel':''}" style="--c:${colorOf(n.letter)}" data-k="${esc(key)}" role="button" tabindex="0">`+
     `<button type="button" class="tog${has?'':' leaf'}" aria-label="${isOpen?'طيّ':'توسيع'}" aria-expanded="${isOpen}" data-t="${esc(key)}">${isOpen?'−':'+'}</button>`+
-    `<span class="name${n.top?' top':''}">${label}</span><span class="count">${last.total}</span>${age}</div>`;
+    `<span class="name${n.top?' top':''}">${label}</span><span class="count">${last.total}</span>${age}</div>`+
+    (last.people.length?`<div class="people" style="--c:${colorOf(n.letter)}">${last.people.slice().sort((x,y)=>(y.name?1:0)-(x.name?1:0)).map(p=>p.name?`<span class="person"><b>${esc(p.name)}</b> · ${esc(p.region)}</span>`:`<span class="person anon">📍 ${esc(p.region)}</span>`).join('')}</div>`:'');
   if(has&&isOpen)h+=`<ul>${sorted(last.kids).map(rowHTML).join('')}</ul>`;
   return h+'</li>';
 }
 
+function onPath(key){return !!ui.sel&&(ui.sel===key||ui.sel.startsWith(key+'>'))}
+function inFocus(key){return !ui.sel||onPath(key)||key.startsWith(ui.sel+'>')}
+function nodeByKey(key,r){let n=(r||build(filtered())).full;for(const p of key.split('>')){n=n&&n.kids.get(p)}return n||null}
+function openRun(key){let n=nodeByKey(key);if(!n){open.add(key);return}open.add(pathKey(n));
+  while(n.kids.size===1&&!n.direct){n=[...n.kids.values()][0];open.add(pathKey(n));}}
+function bpOf(name){const a=DATA.ages[name];if(!a)return null;const m=a.match(/([\d,]+)\s*(ق\.م|م)/);if(!m)return null;
+  const v=+m[1].replace(/,/g,'');return m[2]==='م'?2026-v:2026+v}
+function tlHTML(root){
+  /* time-scaled tree: height = FTDNA age on a log scale; each participant gets his own line down to today, like FTDNA's time tree */
+  const nodes=[],testers=[];let leaves=0;const dx=118;
+  function lay(n,d,par){const o={n,d,par,kids:[],tes:[],bp:bpOf(n.name)};nodes.push(o);const xs=[];
+    for(const k of sorted(n.kids)){const c=lay(k,d+1,o);o.kids.push(c);xs.push(c.x)}
+    for(const p of n.people){const t={p,o,x:leaves++*dx};o.tes.push(t);testers.push(t);xs.push(t.x)}
+    if(!xs.length)xs.push(leaves++*dx);
+    o.x=(Math.min(...xs)+Math.max(...xs))/2;return o}
+  sorted(root.kids).forEach(k=>lay(k,0,null));
+  const aged=nodes.filter(o=>o.bp);if(!aged.length)return '<div class="empty"><b>لا أعمار كافية بعد</b>أضف أعمار الفروع لتظهر الشجرة الزمنية.</div>';
+  const maxBP=Math.max(...aged.map(o=>o.bp))*1.08,minBP=Math.min(...aged.map(o=>o.bp))*0.82;
+  const top=40,ph=760,L=Math.log10;const yOf=bp=>top+(L(maxBP)-L(bp))/(L(maxBP)-L(minBP))*ph;
+  /* fill missing ages: interpolate toward an aged descendant, else hang just below the last aged ancestor */
+  function firstAgedDesc(o){let best=null;(function w(c){for(const k of c.kids){if(k.bp){if(!best||k.bp>best.bp)best={o:k,bp:k.bp}}else w(k)}})(o);return best}
+  for(const o of nodes){if(o.bp){o.y=yOf(o.bp);continue}
+    let a=o.par,steps=1;while(a&&!a.bp){a=a.par;steps++}
+    const dsc=firstAgedDesc(o);const ay=a?yOf(a.bp):top;
+    if(dsc){let s2=dsc.o.d-o.d;o.y=ay+(yOf(dsc.bp)-ay)*steps/(steps+s2);o.est=true}
+    else{o.y=(o.par?o.par.y:ay)+24;o.none=true}}
+  const yNow=Math.max(top+ph,...nodes.map(o=>o.y))+70;
+  const lab=t=>{const out=[];if(t.p.name)for(const ln of wrapName(t.p.name,16))out.push(['n',ln]);out.push(['r',t.p.region]);return out};
+  const W=Math.max(leaves*dx,dx)+150,H=yNow+Math.max(0,...testers.map(t=>lab(t).length))*15+50,ox=110+dx/2;let s='';
+  const LM=[[2026+9600,'بداية الزراعة في المشرق'],[2026+3300,'بداية العصر البرونزي'],[2026-610,'ظهور الإسلام']].filter(([b])=>b<=maxBP&&b>=minBP);
+  for(const v of [200000,100000,50000,20000,10000,5000,2000,1000]){if(v>maxBP||v<minBP)continue;const y=yOf(v);if(LM.some(([b])=>(y-yOf(b))>-30&&(y-yOf(b))<64))continue;
+    s+=`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="#2a4b66" stroke-dasharray="3 5"/><text class="ar" x="6" y="${y-5}" font-size="11.5" fill="#9fb1c4" text-anchor="start">قبل ${v.toLocaleString('en-US')} سنة</text>`}
+  for(const [bp,l] of LM){const y=yOf(bp);
+    s+=`<line x1="0" x2="${W}" y1="${y}" y2="${y}" stroke="#e8b866" stroke-opacity=".45" stroke-dasharray="8 4"/><text class="ar" x="6" y="${y+15}" font-size="11.5" fill="#e8b866" text-anchor="start">${l}</text>`}
+  s+=`<line x1="0" x2="${W}" y1="${yNow}" y2="${yNow}" stroke="#56cede" stroke-opacity=".5"/><text class="ar" x="6" y="${yNow-6}" font-size="11.5" fill="#56cede" text-anchor="start">اليوم</text>`;
+  for(const o of nodes)for(const k of o.kids){const on=onPath(pathKey(k.n)),dim=!inFocus(pathKey(k.n));
+    s+=`<path d="M${o.x+ox} ${o.y} H${k.x+ox} V${k.y}" fill="none" stroke="${colorOf(k.n.letter||o.n.letter)}" stroke-width="${on?3.5:2}" stroke-opacity="${dim?.25:.75}"${k.none?' stroke-dasharray="4 4"':''}/>`}
+  for(const t of testers){const o=t.o,key=pathKey(o.n),on=onPath(key)||ui.sel===key,dim=!inFocus(key),c=colorOf(o.n.letter),x0=o.x+ox,x1=t.x+ox,ym=(o.y+yNow)/2;
+    s+=`<g data-k="${esc(key)}" data-g="1" style="cursor:pointer" opacity="${dim?.35:1}"><path d="M${x0} ${o.y} C${x0} ${ym} ${x1} ${ym} ${x1} ${yNow}" fill="none" stroke="${c}" stroke-width="${on?3:1.8}" stroke-opacity=".7"/>`+
+      `<circle cx="${x1}" cy="${yNow}" r="7" fill="${c}" stroke="#0a1724" stroke-width="2"/>`+
+      lab(t).map(([k,ln],i)=>`<text class="ar" x="${x1}" y="${yNow+24+i*15}" font-size="${k==='n'?11.5:12}" text-anchor="middle" fill="${k==='n'?'#e278aa':'#56cede'}" font-weight="${k==='n'?700:400}">${esc(ln)}</text>`).join('')+`</g>`}
+  for(const o of nodes){const key=pathKey(o.n),sel=key===ui.sel,dim=!inFocus(key),hit=matches(o.n,ui.q),c=colorOf(o.n.letter),leaf=!o.kids.length;
+    const big=leaf||o.kids.length+o.tes.length>1||o.n.top,x=o.x+ox,y=o.y,r=big?Math.min(13,6+Math.sqrt(o.n.total)*2.4):4;
+    s+=`<g data-k="${esc(key)}" data-g="1" style="cursor:pointer" opacity="${dim?.35:1}"><circle cx="${x}" cy="${y}" r="${r+6}" fill="transparent"/><circle cx="${x}" cy="${y}" r="${r}" fill="${o.none||o.est?'#0a1724':c}" stroke="${sel?'#f6d696':c}" stroke-width="${sel?3:1.6}"/>`;
+    if(big)s+=`<text x="${x}" y="${y+4}" font-size="10" text-anchor="middle" fill="${o.none||o.est?c:'#0a1724'}" font-weight="700">${o.n.total}</text>`;
+    if(big)s+=`<text x="${x+r+5}" y="${leaf?y+4:y-5}" font-size="${o.n.top?14:11}" fill="${hit||sel?'#f6d696':leaf?'#e9eef4':'#c9d6e3'}" font-weight="${o.n.top||leaf?700:500}">${esc(o.n.name)}</text>`;
+    s+='</g>'}
+  const hasNone=nodes.some(o=>o.none);
+  return `<div class="svgwrap"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="الشجرة الزمنية للسلالات">${s}</svg></div>
+  <p class="tlnote">الارتفاع يمثّل العمر التقديري لكل فرع بحسب FTDNA، على مقياس لوغاريتمي يفسح للفروع الحديثة، ولكل مشارك خطّه حتى اليوم.${hasNone?' الخطوط المتقطّعة لفروع لم نُضف أعمارها بعد.':''} اضغط أي نقطة لعرض بطاقتها.</p>`;
+}
+function wrapName(t,w){const out=[];let cur='';for(const word of t.split(/\s+/)){if(cur&&(cur+' '+word).length>w){out.push(cur);cur=word}else cur=cur?cur+' '+word:word}if(cur)out.push(cur);return out}
+function namesSVG(n,x,y){const named=n.people.filter(p=>p.name);let s='',dy=0;
+  for(const p of named){for(const ln of wrapName(p.name,16)){s+=`<text class="ar" x="${x}" y="${y+dy}" font-size="11.5" text-anchor="middle" fill="#e278aa" font-weight="700">${esc(ln)}</text>`;dy+=15}dy+=4}
+  return {s,h:dy}}
 function svgHTML(root){
   /* top-down family-tree layout: root at the top, each opened branch drops one row */
   const rows=[];let leaves=0,maxD=0;const dx=128,dy=78;
@@ -204,54 +291,78 @@ function svgHTML(root){
     rows.push(node);return node;
   }
   sorted(root.kids).forEach(k=>lay(k,0));
-  const W=Math.max(leaves*dx,dx)+40,H=(maxD+1)*dy+40,ox=20+dx/2,oy=30;let s='';
+  const W=Math.max(leaves*dx,dx)+40,ox=20+dx/2,oy=30;let s='',extra=0;
   for(const r of rows){for(const k of r.kids){const x1=r.x+ox,y1=r.d*dy+oy+34,x2=k.x+ox,y2=k.d*dy+oy-16,ym=y2-10;
-    s+=`<path d="M${x1} ${y1} V${ym} H${x2} V${y2}" fill="none" stroke="${colorOf(r.n.letter)}" stroke-opacity=".6" stroke-width="2"/>`}}
+    const on=onPath(pathKey(k.last)),dim=!inFocus(pathKey(k.last));s+=`<path d="M${x1} ${y1} V${ym} H${x2} V${y2}" fill="none" stroke="${colorOf(k.n.letter||r.n.letter)}" stroke-opacity="${dim?.22:on?1:.6}" stroke-width="${on?3.5:2}"/>`}}
   for(const r of rows){const x=r.x+ox,y=r.d*dy+oy,rad=Math.min(15,8+Math.sqrt(r.last.total)*2),key=pathKey(r.last),sel=key===ui.sel,hit=matches(r.last,ui.q);
     const closed=r.last.kids.size&&!open.has(key);
-    s+=`<g data-k="${esc(key)}" data-g="1" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="${rad}" fill="${colorOf(r.n.letter)}" fill-opacity="${sel?1:.8}" stroke="${sel?'#f6d696':'#0a1724'}" stroke-width="${sel?3:1.5}"/>`+
+    s+=`<g data-k="${esc(key)}" data-g="1" style="cursor:pointer" opacity="${inFocus(key)?1:.4}"><circle cx="${x}" cy="${y}" r="${rad}" fill="${colorOf(r.n.letter)}" fill-opacity="${sel?1:.8}" stroke="${sel?'#f6d696':'#0a1724'}" stroke-width="${sel?3:1.5}"/>`+
       `<text x="${x}" y="${y+4}" font-size="11" text-anchor="middle" fill="#0a1724" font-weight="700">${r.last.total}</text>`+
       `<text x="${x}" y="${y+rad+16}" font-size="${r.n.top?17:12.5}" text-anchor="middle" fill="${hit?'#f6d696':'#e9eef4'}" font-weight="${hit||sel?700:500}">${esc(r.last.name)}</text>`+
-      (closed?`<text x="${x+rad+4}" y="${y-rad+2}" font-size="11" text-anchor="middle" fill="#9fb1c4">＋${r.last.kids.size}</text>`:'')+`</g>`}
-  return `<div class="svgwrap"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="رسم شجرة السلالات">${s}</svg></div>`;
+      (closed?`<text x="${x+rad+4}" y="${y-rad+2}" font-size="11" text-anchor="middle" fill="#9fb1c4">＋${r.last.kids.size}</text>`:'')+(!r.kids.length?(()=>{const m=namesSVG(r.last,x,y+rad+33);extra=Math.max(extra,m.h);return m.s})():'')+`</g>`}
+  const H=(maxD+1)*dy+40+extra;return `<div class="svgwrap"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="رسم شجرة السلالات">${s}</svg></div>`;
 }
 
 function cardHTML(root){
   let node=null;
-  if(ui.sel){const parts=ui.sel.split('>');let n=root;for(const p of parts){n=n&&n.kids.get(p)}node=n||null}
+  if(ui.sel){const parts=ui.sel.split('>');let n=root.full||root;for(const p of parts){n=n&&n.kids.get(p)}node=n||null}
   if(!node){return `<aside class="card"><h3>بطاقة الفرع</h3><p class="hint">اختر أي فرع من الشجرة لترى عدد المشاركين فيه، وتوزّعهم على المحافظات، ونوع فحوصاتهم، ومساره الكامل.</p>
     <div class="legend"><span><span class="tag deep">عميق</span>Big Y وما يماثله</span><span><span class="tag str">ماركرات</span>Y-37 حتى Y-111</span><span><span class="tag ff">تقديري</span>Family Finder</span></div></aside>`}
-  const anc=ancestry(node),letter=anc[0].name;
+  const all0=ancestry(node),cut=root.top?all0.indexOf(root.top):-1,anc=cut>0?all0.slice(cut):all0,letter=node.letter;
   const regs=Object.entries(node.regions).sort((a,b)=>b[1]-a[1]),max=regs.length?regs[0][1]:1;
   const tests=Object.entries(node.tests).sort((a,b)=>b[1]-a[1]);
   return `<aside class="card" style="--c:${colorOf(letter)}">
     <h3 class="name" style="font-size:1.35rem">${esc(node.name)}</h3>
-    <div class="crumbs">${anc.map(a=>`<button type="button" data-k="${esc(pathKey(a))}">${esc(a.name)}</button>`).join('')}</div>
+    ${(DATA.alias||{})[node.name]?`<p class="hint" style="margin:2px 0 0">يُعرف في YFull باسم <span class="en">${esc(DATA.alias[node.name])}</span></p>`:''}<div class="crumbs">${anc.map(a=>`<button type="button" data-k="${esc(pathKey(a))}">${esc(a.name)}</button>`).join('')}</div>
     <div class="big"><div><b>${node.total}</b><span>مشاركًا في الفرع وما تحته</span></div><div><b>${node.direct}</b><span>آخر تحوّرهم هنا</span></div>${DATA.ages[node.name]?`<div><b class="age" style="font-size:1rem">${esc(DATA.ages[node.name])}</b><span>عمر الفرع</span></div>`:''}</div>
     <h3>المحافظات</h3><div class="mini">${regs.map(([r,c])=>`<div class="r"><span>${esc(r)}</span><span class="t"><i style="width:${c/max*100}%"></i></span><b>${c}</b></div>`).join('')}</div>
     <h3>نوع الفحص</h3><div style="margin:6px 0 12px">${tests.map(([d,c])=>`<span class="tag ${d}">${DEPTH_AR[d]} · ${c}</span>`).join(' ')}</div>
-    ${node.names.length?`<h3>مشاركون بأسمائهم</h3><p class="names">${node.names.map(esc).join('، ')}</p>`:''}
+    ${node.names.length?`<h3>الأسماء والأنساب</h3><p class="names">${node.names.map(esc).join('، ')}</p>`:''}
     <p class="hint">لمشاركة هذا الفرع أضف إلى آخر رابط الصفحة: <span class="en">#n-${esc(slug(node.name))}</span></p>
   </aside>`;
 }
 
+function calcHTML(full){
+  const names=[...new Set(findAll(full,()=>true).map(n=>n.name))].sort();
+  let res='';
+  if(ui.cr){const r=ui.cr;
+    if(r.err)res=`<div class="res">${r.err}</div>`;
+    else{const age=DATA.ages[r.m]?`، ويقدّر FTDNA عمر هذا الفرع بنحو <b>${esc(DATA.ages[r.m].replace(/\s*·\s*FTDNA/,'').replace(/^نحو\s*/,''))}</b>`:'، ولم نُضف عمر هذا الفرع بعد';
+      res=r.same?`<div class="res">التحوّران على الخط نفسه: <span class="en">${esc(r.m)}</span> هو أحد أجداد <span class="en">${esc(r.other)}</span> في خط الأب نفسه، وبينهما ${r.sb} من الفروع${age}.</div>`:
+      `<div class="res">يلتقي الخطّان عند <span class="en">${esc(r.m)}</span>${age}.<br>المسافة منه إلى <span class="en">${esc(r.a)}</span> ${r.sa} من الفروع، وإلى <span class="en">${esc(r.b)}</span> ${r.sb}.<br><button type="button" class="btn" data-k="${esc(r.key)}" style="margin-top:6px">اعرضه على الشجرة</button></div>`}}
+  return `<section class="calc"><h2>🧭 حاسبة الجد المشترك</h2><p class="hint" style="margin:0">اختر تحوّرين من الشجرة لتعرف أين يلتقي خطّا الأب ومتى.</p>
+  <datalist id="snps">${names.map(n=>`<option value="${esc(n)}">`).join('')}</datalist>
+  <div class="grid" style="margin-top:8px"><label>التحوّر الأول<input type="text" id="cA" list="snps" placeholder="R-Z93" value="${esc(ui.ca)}"></label><label>التحوّر الثاني<input type="text" id="cB" list="snps" placeholder="R-Z283" value="${esc(ui.cb)}"></label></div>
+  <div class="controls" style="margin-top:10px"><button type="button" class="btn solid" id="cGo">احسب</button></div>${res}</section>`;
+}
+function calc(){
+  const full=build(DATA.entries).full,all=findAll(full,()=>true);
+  const find=q=>{q=q.trim().toUpperCase();if(!q)return null;return all.find(n=>n.name===q)||all.find(n=>n.name.replace(/^[A-Z0-9]+-/,'')===q.replace(/^[A-Z0-9]+-/,''))};
+  const A=find(ui.ca),B=find(ui.cb);
+  if(!A||!B){ui.cr={err:'لم نجد '+(!A?'التحوّر الأول':'التحوّر الثاني')+' في الشجرة. اختر من القائمة المقترحة.'};return}
+  const pa=ancestry(A),pb=ancestry(B);let i=0;while(i<pa.length&&i<pb.length&&pa[i]===pb[i])i++;const m=pa[i-1];
+  if(!m){ui.cr={err:'تعذّر إيجاد جدّ مشترك.'};return}
+  if(m===A||m===B){const o=m===A?B:A;ui.cr={same:true,m:m.name,other:o.name,sb:ancestry(o).length-ancestry(m).length,key:pathKey(m)};return}
+  ui.cr={m:m.name,a:A.name,b:B.name,sa:pa.length-i,sb:pb.length-i,key:pathKey(m)};
+}
 function render(){
   const all=build(DATA.entries),root=build(filtered());
   const regions=new Set(DATA.entries.map(e=>e.region).filter(r=>r&&r!=='غير محدد'));
   const deep=DATA.entries.filter(e=>depthOf(e.test)==='deep').length;
   let hint='';
   if(ui.q){const hits=findAll(root,n=>matches(n,ui.q));hits.forEach(h=>ancestry(h).slice(0,-1).forEach(a=>open.add(pathKey(a))));hint=hits.length?`عدد الفروع المطابقة: ${hits.length}`:'لا يوجد فرع مطابق بعد';}
-  const tops=sorted(all.kids),tot=DATA.entries.length||1,maxTop=tops.length?tops[0].total:1;
-  const bars=tops.map(t=>`<button type="button" class="bar" data-k="${esc(t.name)}"><span class="l" style="color:${colorOf(t.name)}">${esc(t.name)}</span><span class="t"><i style="width:${t.total/maxTop*100}%;background:${colorOf(t.name)}"></i></span><span class="v">${t.total} · ${Math.round(t.total/tot*100)}%</span></button>`).join('');
-  const body=!DATA.entries.length?`<div class="empty"><b>الشجرة بانتظار أول المشاركات</b>شارك سلالتك الأبوية مع صفحة «الجينوم السوري» في التعليقات أو على الخاص، وسيظهر فرعك هنا.</div>`:
+  const byL={};for(const e of DATA.entries){const L=majorLetter(e.path[e.path.length-1]||'')||'?';byL[L]=(byL[L]||0)+1}
+  const tops=Object.entries(byL).map(([name,total])=>{const r=findAll(all,n=>n.top&&n.letter===name)[0];return {name,total,key:r?pathKey(r):''}}).sort((a,b)=>b.total-a.total),tot=DATA.entries.length||1,maxTop=tops.length?tops[0].total:1;
+  const bars=tops.map(t=>`<button type="button" class="bar" data-k="${esc(t.key)}"><span class="l" style="color:${colorOf(t.name)}">${esc(t.name)}</span><span class="t"><i style="width:${t.total/maxTop*100}%;background:${colorOf(t.name)}"></i></span><span class="v">${t.total} · ${Math.round(t.total/tot*100)}%</span></button>`).join('');
+  const body=!DATA.entries.length?`<div class="empty"><b>الشجرة بانتظار أول المشاركات</b>املأ بطاقة المشاركة من زر «شارك فرعك في الشجرة» أعلاه، وسيظهر فرعك هنا.</div>`:
     !root.kids.size?`<div class="empty"><b>لا مشاركات تطابق هذا الاختيار</b>غيّر المحافظة أو نوع الفحص.</div>`:
-    ui.view==='list'?`<ul>${sorted(root.kids).map(rowHTML).join('')}</ul>`:svgHTML(root);
+    ui.view==='list'?`<ul>${sorted(root.kids).map(rowHTML).join('')}</ul>`:ui.view==='time'?tlHTML(root):svgHTML(root);
   app.innerHTML=`<div class="wrap">
   <header><h1>شجرة السلالات الأبوية السورية</h1><div class="en">Syrian paternal-lineage tree</div>
-  <p class="lead">مشروع تشاركي من صفحة «الجينوم السوري» يجمع السلالات الأبوية التي يشاركنا بها المختبرون السوريون. اضغط على أي سلالة لتنفتح فروعها فرعًا فرعًا حتى آخر تحوّر، أو ابحث عن تحوّر بعينه.</p></header>
+  <p class="lead">مشروع تشاركي من صفحة «الجينوم السوري» يجمع السلالات الأبوية التي يشاركنا بها المختبرون السوريون. اضغط على أي سلالة لتنفتح فروعها فرعًا فرعًا حتى آخر تحوّر، أو ابحث عن تحوّر بعينه.</p><p style="margin:12px 0 0"><a class="btn solid" href="https://docs.google.com/forms/d/e/1FAIpQLScTSS5r2M0lfBPblRFtiht0_II5hjNWVeDA45FnPvsEcjsZMw/viewform" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">📩 شارك فرعك في الشجرة</a> <a class="btn" href="https://syriangenome.com/privacy.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">🔒 سياسة الخصوصية</a></p></header>
   <div class="stats">
     <div class="stat"><b>${DATA.entries.length}</b><span>مشاركة</span></div>
-    <div class="stat"><b>${all.kids.size}</b><span>سلالة كبرى</span></div>
+    <div class="stat"><b>${tops.length}</b><span>سلالة كبرى</span></div>
     <div class="stat"><b>${regions.size}</b><span>محافظة</span></div>
     <div class="stat"><b>${deep}</b><span>بفحص تحوّرات عميق</span></div>
   </div>
@@ -259,15 +370,17 @@ function render(){
   <div class="controls">
     <input id="q" type="search" placeholder="FGC12 · L454 · M123" value="${esc(ui.q)}" aria-label="ابحث عن تحوّر">
     <select id="gov" aria-label="المحافظة"><option value="">كل المحافظات</option>${GOVS.map(g=>`<option${ui.gov===g?' selected':''}>${g}</option>`).join('')}</select>
-    <select id="dep" aria-label="نوع الفحص"><option value="">كل الفحوصات</option>${['deep','str','ff','other'].map(d=>`<option value="${d}"${ui.depth===d?' selected':''}>${DEPTH_AR[d]}</option>`).join('')}</select>
-    <span class="seg" role="group" aria-label="طريقة العرض"><button type="button" data-v="list" aria-pressed="${ui.view==='list'}">قائمة</button><button type="button" data-v="draw" aria-pressed="${ui.view==='draw'}">شجرة مرسومة</button></span>
+    <select id="dep" aria-label="نوع الفحص"><option value="">كل الفحوصات</option>${['deep','top','str','ff','other'].map(d=>`<option value="${d}"${ui.depth===d?' selected':''}>${DEPTH_AR[d]}</option>`).join('')}</select>
+    <span class="seg" role="group" aria-label="طريقة العرض"><button type="button" data-v="list" aria-pressed="${ui.view==='list'}">قائمة</button><button type="button" data-v="draw" aria-pressed="${ui.view==='draw'}">شجرة مرسومة</button><button type="button" data-v="time" aria-pressed="${ui.view==='time'}">زمنية</button></span>
+    ${ui.view!=='time'?`<span class="seg" role="group" aria-label="طريقة الفتح"><button type="button" data-m="step" aria-pressed="${ui.mode==='step'}">فرعًا فرعًا</button><button type="button" data-m="run" aria-pressed="${ui.mode==='run'}">حتى التفرّع</button></span>`:''}
     <button type="button" class="btn" id="all">فتح الكل</button><button type="button" class="btn" id="none">طيّ الكل</button>
   </div>
   <div class="hint" aria-live="polite">${hint}</div>
   <div class="main"><div class="tree" id="tree">${body}</div>${cardHTML(root)}</div>
+  ${DATA.entries.length>1?calcHTML(all.full):''}
   <p class="note">الأرقام تعكس من شاركونا نتائجهم، لا نسب السلالات بين السوريين جميعًا. ونتائج Family Finder وفحوصات الماركرات تُظهر سلالة تقديرية في مستوى أعلى من الشجرة، بينما يحدد Big Y الفرع بدقة. لا نعرض أسماء المشاركين إلا لمن وافق على ذلك صراحة.</p>
   ${isAdmin?adminHTML():''}
-  <footer><span><a href="index.html">الجينوم السوري</a> <span class="en">· Syrian Genome</span></span><span><a href="https://www.facebook.com/SyrianGenome" target="_blank" rel="noopener">فيسبوك</a> · <a href="https://x.com/SyrianGenome" target="_blank" rel="noopener">X</a></span></footer>
+  <footer><span><a href="https://syriangenome.com/" target="_blank" rel="noopener">الجينوم السوري</a> <span class="en">· Syrian Genome</span></span><span><a href="https://syriangenome.com/" target="_blank" rel="noopener">الرئيسية</a> · <a href="https://syriangenome.com/privacy.html" target="_blank" rel="noopener">الخصوصية</a> · <a href="https://www.facebook.com/SyrianGenome" target="_blank" rel="noopener">فيسبوك</a> · <a href="https://x.com/SyrianGenome" target="_blank" rel="noopener">X</a></span></footer>
   </div>`;
   wire();
 }
@@ -305,12 +418,15 @@ function wire(){
     const f=document.querySelector('.node.hit');if(f)f.scrollIntoView({block:'nearest'});});
   document.getElementById('gov').onchange=e=>{ui.gov=e.target.value;render();};
   document.getElementById('dep').onchange=e=>{ui.depth=e.target.value;render();};
-  document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{ui.view=b.dataset.v;render();});
+  document.querySelectorAll('.seg button[data-v]').forEach(b=>b.onclick=()=>{ui.view=b.dataset.v;render();});
+  document.querySelectorAll('.seg button[data-m]').forEach(b=>b.onclick=()=>{ui.mode=b.dataset.m;render();});
+  const cA=document.getElementById('cA'),cB=document.getElementById('cB'),cGo=document.getElementById('cGo');
+  if(cA){cA.oninput=()=>{ui.ca=cA.value};cB.oninput=()=>{ui.cb=cB.value};cGo.onclick=()=>{calc();render();const r=document.querySelector('.calc .res');if(r)r.scrollIntoView({block:'nearest'});};}
   const all=document.getElementById('all');if(all)all.onclick=()=>{findAll(build(filtered()),()=>true).forEach(n=>open.add(pathKey(n)));render();};
   const none=document.getElementById('none');if(none)none.onclick=()=>{open.clear();render();};
-  document.querySelectorAll('.tog').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const k=b.dataset.t;open.has(k)?open.delete(k):open.add(k);render();});
+  document.querySelectorAll('.tog').forEach(b=>b.onclick=ev=>{ev.stopPropagation();const k=b.dataset.t;open.has(k)?open.delete(k):(ui.mode==='run'?openRun(k):open.add(k));render();});
   document.querySelectorAll('.node,[data-k]').forEach(el=>{if(el.classList.contains('tog'))return;
-    el.addEventListener('click',()=>{const k=el.dataset.k;if(el.dataset.g||el.classList.contains('node')){if(open.has(k)&&ui.sel===k)open.delete(k);else open.add(k);}select(k);});
+    el.addEventListener('click',()=>{const k=el.dataset.k;if(el.dataset.g||el.classList.contains('node')){if(open.has(k)&&ui.sel===k)open.delete(k);else if(ui.mode==='run')openRun(k);else open.add(k);}select(k);});
     if(el.classList.contains('node'))el.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(el.dataset.k)}});});
   if(!isAdmin)return;
   const m=document.getElementById('aMsg');
@@ -318,10 +434,11 @@ function wire(){
     let path=parsePath(document.getElementById('fPath').value);
     if(!path.length){m.textContent='اكتب المسار أولًا.';return;}
     /* auto-complete: if the first step is already on the tree, prepend its known ancestors */
-    const known=findAll(build(draft.entries.filter(x=>x.id!==editId)),n=>n.name===path[0])[0];
+    const known=!isBack(path[0])&&findAll(build(draft.entries.filter(x=>x.id!==editId)).full,n=>n.name===path[0])[0];
     let filled=0;
-    if(known){const pre=ancestry(known).slice(1,-1).map(n=>n.name);filled=pre.length;path=[...pre,...path];}
-    else if(path.length===1){m.textContent='هذا التحوّر غير موجود في الشجرة بعد، فالصق مساره الكامل مرة واحدة، وبعدها يكفي اسمه.';return;}
+    if(known){const pre=ancestry(known).slice(0,-1).map(n=>n.name);filled=pre.length;path=[...pre,...path];}
+    else if(path.length===1&&!BB[path[0]]){m.textContent='هذا التحوّر غير موجود في الشجرة بعد، فالصق مساره الكامل مرة واحدة، وبعدها يكفي اسمه.';return;}
+    if(!known)path=full(path);
     const nm=document.getElementById('fName').value.trim(),ok=document.getElementById('fOk').checked;
     if(nm&&!ok){m.textContent='لا يُضاف الاسم إلا بعد تأكيد موافقة صاحبه.';return;}
     const rec={path,region:document.getElementById('fGov').value,test:document.getElementById('fTest').value,name:nm||undefined};
@@ -359,6 +476,7 @@ function buildDoc(state){
 function fromHash(){const h=(location.hash||'').replace(/^#n-/,'');if(!h)return;
   const hit=findAll(build(DATA.entries),n=>slug(n.name)===h)[0];if(hit){ui.sel=pathKey(hit);ancestry(hit).slice(0,-1).forEach(a=>open.add(pathKey(a)));}}
 fromHash();
+if(!ui.sel){const r0=build(DATA.entries);const tp=[...r0.kids.values()][0];if(tp&&isBack(tp.name))open.add(pathKey(tp));}
 window.addEventListener('hashchange',()=>{fromHash();render();});
 render();
 (async()=>{try{if(!window.claude||!claude.use)return;
